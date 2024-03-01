@@ -1,0 +1,103 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+  color: #38383B;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+h5 {
+  color: #38383B;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+p {
+  font-size: 16px;
+  line-height: 26px;
+  color: #38383B;
+}
+
+.container {
+  max-width: calc(1200px + 32px + 32px);
+  padding: 0 32px;
+  margin: 0 auto;
+}
+
+.button {
+  display: block;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  line-height: 22px;
+  padding: 17px 47px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.button._primary {
+  background-color: #FF5C38;
+  color: #fff;
+}
+
+.button._primary:hover {
+  background-color: #FFC72C;
+  color: #38383B;
+}
+
+.button._secondary {
+  color: #38383B;
+  border: 1px solid #CCCCCC;
+}
+
+.button._secondary:hover {
+  border: 1px solid #FFC72C;
+  background-color: #FFC72C;
+}
+
+.button._favorite {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.button._favorite::before {
+  content: '';
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-image: url('/src/img/icon-favorite.svg');
+}
+
+@media (max-width: 1024px) {
+  .button {
+    padding: 15px 32px;
+  }
+
+  .button._favorite {
+    font-size: 0;
+    line-height: 0;
+    gap: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 22px;
+    line-height: 26px;
+  }
+  
+  .container {
+    padding: 0 12px;
+  }
+
+  .button {
+    padding: 15px 28px;
+  }
+}
