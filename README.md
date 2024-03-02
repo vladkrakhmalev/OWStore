@@ -4,8 +4,6 @@
 Product page for the OW Store (online-store)
 
 ![Screenshot](screenshots/desc.png)
-![Screenshot](screenshots/tablet.png)
-![Screenshot](screenshots/mob.png)
 
 ### Features
 - Adaptive layout
