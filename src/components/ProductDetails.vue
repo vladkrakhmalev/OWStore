@@ -51,7 +51,7 @@
             class="product__color-input"
             v-model="selectedColor"
           />
-          <img :src="`src/img/${color.image}`" alt="" class="product__color-img"/>
+          <img :src="`/${color.image}`" alt="" class="product__color-img"/>
         </label>
       </div>
     </div>

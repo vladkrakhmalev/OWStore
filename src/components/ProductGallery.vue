@@ -27,7 +27,7 @@
       class="gallery__slider"
     >
       <swiper-slide v-for="photo in images" class="gallery__slide">
-        <img :src="`/src/img/${photo}`" class="gallery__image" />
+        <img :src="`/${photo}`" class="gallery__image" />
       </swiper-slide>
     </swiper>
 
@@ -39,7 +39,7 @@
       class="gallery__list"
     >
       <swiper-slide v-for="photo in images" class="gallery__item">
-        <img :src="`/src/img/${photo}`" class="gallery__preview"/>
+        <img :src="`/${photo}`" class="gallery__preview"/>
       </swiper-slide>
     </swiper>
   </div>
