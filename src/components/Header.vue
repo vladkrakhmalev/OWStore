@@ -1,3 +1,13 @@
+<script setup>
+  import { ref } from 'vue'
+
+  const isOpenMenu = ref(false)
+
+  function toggleOpenMenu() {
+    isOpenMenu.value = !isOpenMenu.value
+  }
+</script>
+
 <template>
   <header class="header">
     <div class="container header__container">
@@ -21,21 +31,6 @@
     </div>
   </header>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      isOpenMenu: false
-    }
-  },
-  methods: {
-    toggleOpenMenu() {
-      this.isOpenMenu = !this.isOpenMenu
-    }
-  }
-}
-</script>
 
 <style>
   .header {

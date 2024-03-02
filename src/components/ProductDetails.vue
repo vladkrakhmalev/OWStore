@@ -1,81 +1,74 @@
+<script setup>
+  import { ref } from 'vue'
+
+  const props = defineProps(['product'])
+  const addedToCart = ref(false)
+  const addedToFavorite = ref(false)
+  const selectedColor = ref(props.product.colors[0].value)
+  const selectedSize = ref(props.product.sizes[0].value)
+
+  function addToFavorite() {
+    this.addedToFavorite = !this.addedToFavorite
+  }
+
+  function addToCart() {
+    const formData = {
+      color: this.selectedColor,
+      size: this.selectedSize
+    }
+    console.log('Отправляем данные в корзину:', formData);
+    this.addedToCart = true
+  }
+</script>
+
 <template>
-  <form class="product__form">
+  <form class="product__form" @submit.prevent="addToCart()">
     <div class="product__info">
       <div class="product__title">
-        <h1>Зимняя куртка</h1>
-        <p class="product__article">арт.: winter-23324-12</p>
+        <h1>{{ product.name }}</h1>
+        <p class="product__article">{{ product.article }}</p>
       </div>
       <div class="product__price">
-        <p class="product__price-new">5 499 ₽</p>
-        <p class="product__price-old">6 200 ₽</p>
+        <p class="product__price-new">{{ product.newPrice.toLocaleString() }} ₽</p>
+        <p class="product__price-old">{{ product.oldPrice.toLocaleString() }} ₽</p>
       </div>
-      <p class="product__text">Детская классическая куртка изготовлена из водо- и ветронепроницаемого материала softshell с грязеотталкивающей поверхностью.</p>
+      <p class="product__text">{{ product.description }}</p>
     </div>
 
     <div class="product__field">
-      <h5>Выберите цвет: <span id="color_value">оранжевый</span></h5>
+      <h5>Выберите цвет: <span id="color_value">{{ selectedColor }}</span></h5>
       <div class="product__colors">
-        <label class="product__color">
-          <input type="radio" name="color" value="оранжевый" class="product__color-input" checked/>
-          <img src="../img/color-1.png" alt="" class="product__color-img">
-        </label>
-        <label class="product__color">
-          <input type="radio" name="color" value="розовый"  class="product__color-input"/>
-          <img src="../img/color-2.png" alt="" class="product__color-img">
-        </label>
-        <label class="product__color">
-          <input type="radio" name="color" value="фиолетовый"  class="product__color-input"/>
-          <img src="../img/color-3.png" alt="" class="product__color-img">
-        </label>
-        <label class="product__color">
-          <input type="radio" name="color" value="синий"  class="product__color-input"/>
-          <img src="../img/color-4.png" alt="" class="product__color-img">
-        </label>
-        <label class="product__color">
-          <input type="radio" name="color" value="зеленый"  class="product__color-input"/>
-          <img src="../img/color-5.png" alt="" class="product__color-img">
+        <label
+          v-for="color in product.colors"
+          @click="$emit('changeColor', color.images)"
+          class="product__color"
+          :class="color.quantity === 0 ? '_hidden' : ''"
+        >
+          <input
+            type="radio"
+            name="color"
+            :value="color.value"
+            class="product__color-input"
+            v-model="selectedColor"
+          />
+          <img :src="`src/img/${color.image}`" alt="" class="product__color-img"/>
         </label>
       </div>
     </div>
     
     <div class="product__field">
-      <h5>Выберите размер: <span id="size_value">104</span></h5>
+      <h5>Выберите размер: <span id="size_value">{{ selectedSize }}</span></h5>
       <div class="product__sizes">
-        <label class="product__size">
-          <input type="radio" name="size" value="92" class="product__size-input"/>
-          <p class="product__size-value">92</p>
-        </label>
-        <label class="product__size">
-          <input type="radio" name="size" value="98"  class="product__size-input"/>
-          <p class="product__size-value">98</p>
-        </label>
-        <label class="product__size">
-          <input type="radio" name="size" value="104"  class="product__size-input" checked/>
-          <p class="product__size-value">104</p>
-        </label>
-        <label class="product__size">
-          <input type="radio" name="size" value="110"  class="product__size-input"/>
-          <p class="product__size-value">110</p>
-        </label>
-        <label class="product__size">
-          <input type="radio" name="size" value="116"  class="product__size-input"/>
-          <p class="product__size-value">116</p>
-        </label>
-        <label class="product__size">
-          <input type="radio" name="size" value="122"  class="product__size-input"/>
-          <p class="product__size-value">122</p>
-        </label>
-        <label class="product__size">
-          <input type="radio" name="size" value="128"  class="product__size-input"/>
-          <p class="product__size-value">128</p>
-        </label>
-        <label class="product__size">
-          <input type="radio" name="size" value="134" disabled  class="product__size-input"/>
-          <p class="product__size-value">134</p>
-        </label>
-        <label class="product__size">
-          <input type="radio" name="size" value="140" disabled  class="product__size-input"/>
-          <p class="product__size-value">140</p>
+        <label class="product__size" v-for="size in product.sizes">
+          <input 
+            type="radio"
+            name="size"
+            class="product__size-input"
+            :value="size.value"
+            :disabled="size.quantity === 0"
+            v-model="selectedSize"
+          />
+          <p class="product__size-value">{{ size.value }}</p>
         </label>
       </div>
     </div>
@@ -83,18 +76,19 @@
     <div>
       <a href="/size-chart" class="product__link">Таблица размеров</a>
       <div class="product__buttons">
-        <button type="submit" class="button _primary">Добавить в корзину</button>
-        <button class="button _secondary _favorite">В избранное</button>
+        <button type="submit" class="button _primary" :disabled="addedToCart">
+          {{ addedToCart ? 'Товар в корзине' : 'Добавить в корзину' }}
+        </button>
+        <button
+          type="button"
+          class="button _secondary _favorite"
+          :class="addedToFavorite ? '_active' : ''"
+          @click="addToFavorite()"
+        >В избранное</button>
       </div>
     </div>
   </form>
 </template>
-
-<script>
-export default {
-  
-}
-</script>
 
 <style>
 
@@ -159,6 +153,10 @@ export default {
     cursor: pointer;
   }
 
+  .product__color._hidden {
+    display: none;
+  }
+
   .product__color-img {
     width: 100%;
     border-radius: 50%;
@@ -167,6 +165,7 @@ export default {
     transition: .1s;
   }
 
+  .product__color:hover > .product__color-img,
   .product__color-input:checked + .product__color-img {
     border: 3px solid #ffffffff;
     outline: 1px solid #38383Bff;
@@ -182,22 +181,28 @@ export default {
   }
 
   .product__size {
-    cursor: pointer;
     width: 50px;
     text-align: center;
-  }
-
-  .product__size-input:disabled + .product__size-value {
-    color: #898D8D;
   }
 
   .product__size-input {
     display: none;
   }
 
+  .product__size:hover > .product__size-value,
   .product__size-input:checked + .product__size-value {
     background-color: #38383B;
     color: #fff;
+  }
+
+  .product__size-input:disabled + .product__size-value {
+    color: #898D8D;
+    cursor: default;
+    background-color: #fff;
+    background-image: url('../img/cross.svg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
   }
   
   .product__size-value {
@@ -205,6 +210,7 @@ export default {
     padding: 10px 13px;
     font-size: 14px;
     line-height: 18px;
+    cursor: pointer;
     transition: .2s;
   }
 
@@ -248,15 +254,6 @@ export default {
 
     .product__field {
       gap: 8px;
-    }
-
-    .product__sizes {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));;
-    }
-
-    .product__size {
-      width: 100%;
     }
 
     .product__link {

@@ -1,8 +1,12 @@
+<script setup>
+  defineProps(['product'])
+</script>
+
 <template>
   <div class="breadcrumbs">
     <a href="/catalog" class="breadcrumbs__link">Каталог</a>
     <a href="/jackets-kids" class="breadcrumbs__link">Куртки и пальто для малышей</a>
-    <p class="breadcrumbs__item">Зимняя куртка</p>
+    <p class="breadcrumbs__item">{{product.name}}</p>
   </div>
 </template>
 

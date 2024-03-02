@@ -1,3 +1,18 @@
+<script setup>
+  import { ref } from 'vue'
+
+  const activeIndex = ref(0)
+  const activeHeight = ref(0)
+
+  function toggleAccordion(index, event) {
+    activeHeight.value = 0
+    activeIndex.value = activeIndex.value === index ? null : index
+    const parent = event.target.closest('.footer__column')
+    const child = parent.querySelector('.footer__column-content')
+    activeHeight.value = child.scrollHeight + 37
+  }
+</script>
+
 <template>
   <footer class="footer">
     <nav class="container footer__menu">
@@ -28,26 +43,6 @@
     </nav>
   </footer>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      activeIndex: null,
-      activeHeight: null
-    }
-  },
-  methods: {
-    toggleAccordion(index, event) {
-      this.activeHeight = 0
-      this.activeIndex = this.activeIndex === index ? null : index
-      const parent = event.target.closest('.footer__column')
-      const child = parent.querySelector('.footer__column-content')
-      this.activeHeight = child.scrollHeight + 37
-    }
-  }
-}
-</script>
 
 <style>
   .footer {

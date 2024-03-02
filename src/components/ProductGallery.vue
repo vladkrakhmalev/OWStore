@@ -1,71 +1,49 @@
+<script setup>
+  import { ref } from 'vue'
+  import { Swiper, SwiperSlide } from 'swiper/vue'
+  import { Thumbs, Navigation } from 'swiper/modules'
+  import SwiperCore from 'swiper'
+  import 'swiper/css/navigation'
+  import 'swiper/css/thumbs'
+  import 'swiper/css'
+
+  SwiperCore.use([Navigation, Thumbs])
+
+  const props = defineProps(['product', 'images'])
+
+  const thumbsSwiper = ref(null)
+
+  function setThumbsSwiper(swiper) {
+    thumbsSwiper.value = swiper
+  }
+</script>
+
 <template>
   <div class="gallery">
     <div class="gallery__sale">-20%</div>
     <swiper
-      :modules="modules"
       :thumbs="{ swiper: thumbsSwiper }"
       navigation
       class="gallery__slider"
     >
-      <swiper-slide v-for="photo in photosBig" class="gallery__slide">
+      <swiper-slide v-for="photo in images" class="gallery__slide">
         <img :src="`/src/img/${photo}`" class="gallery__image" />
       </swiper-slide>
     </swiper>
 
     <swiper
-      :modules="modules"
       watch-slides-progress
       @swiper="setThumbsSwiper"
       :slides-per-view="3"
       :space-between="10"
       class="gallery__list"
     >
-      <swiper-slide v-for="photo in photos" class="gallery__item">
+      <swiper-slide v-for="photo in images" class="gallery__item">
         <img :src="`/src/img/${photo}`" class="gallery__preview"/>
       </swiper-slide>
     </swiper>
   </div>
 </template>
-
-<script>
-  import { ref } from 'vue'
-  import { Swiper, SwiperSlide } from 'swiper/vue'
-  import { Thumbs, Navigation } from 'swiper/modules'
-  import 'swiper/css/navigation'
-  import 'swiper/css/thumbs'
-  import 'swiper/css'
-
-  export default {
-    components: {
-      Swiper,
-      SwiperSlide,
-    },
-    setup() {
-      const photos = [
-        'image-1.png',
-        'image-2.png',
-        'image-3.png',
-      ]
-      const photosBig = [
-        'image-big-1.png',
-        'image-big-2.png',
-        'image-big-3.png',
-      ]
-      const thumbsSwiper = ref(null);
-      const setThumbsSwiper = (swiper) => {
-        thumbsSwiper.value = swiper;
-      };
-      return {
-        photos,
-        photosBig,
-        modules: [Thumbs, Navigation],
-        thumbsSwiper,
-        setThumbsSwiper
-      }
-    }
-  }
-</script>
-
 
 <style>
   .gallery {
