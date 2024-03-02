@@ -10,7 +10,7 @@
   SwiperCore.use([Navigation, Thumbs])
 
   const props = defineProps(['product', 'images'])
-
+  const baseUrl = ref(import.meta.env.BASE_URL)
   const thumbsSwiper = ref(null)
 
   function setThumbsSwiper(swiper) {
@@ -27,7 +27,7 @@
       class="gallery__slider"
     >
       <swiper-slide v-for="photo in images" class="gallery__slide">
-        <img :src="`/${photo}`" class="gallery__image" />
+        <img :src="baseUrl + photo" class="gallery__image" />
       </swiper-slide>
     </swiper>
 
@@ -39,7 +39,7 @@
       class="gallery__list"
     >
       <swiper-slide v-for="photo in images" class="gallery__item">
-        <img :src="`/${photo}`" class="gallery__preview"/>
+        <img :src="baseUrl + photo" class="gallery__preview"/>
       </swiper-slide>
     </swiper>
   </div>

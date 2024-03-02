@@ -6,6 +6,7 @@
   const addedToFavorite = ref(false)
   const selectedColor = ref(props.product.colors[0].value)
   const selectedSize = ref(props.product.sizes[0].value)
+  const baseUrl = ref(import.meta.env.BASE_URL)
 
   function addToFavorite() {
     this.addedToFavorite = !this.addedToFavorite
@@ -51,7 +52,7 @@
             class="product__color-input"
             v-model="selectedColor"
           />
-          <img :src="`/${color.image}`" alt="" class="product__color-img"/>
+          <img :src="baseUrl + color.image" alt="" class="product__color-img"/>
         </label>
       </div>
     </div>
