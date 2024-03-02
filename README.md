@@ -23,7 +23,6 @@ npm install // Install dependencies
 npm run dev // Launching in development mode
 ```
 #### Production mode
-P.S. Images are not uploaded to the production mode (in the process of correction)
 ```bash
 npm clone https://github.com/vladkrakhmalev/OWStore // Clone the repository
 npm install // Install dependencies

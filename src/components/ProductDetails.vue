@@ -9,16 +9,16 @@
   const baseUrl = ref(import.meta.env.BASE_URL)
 
   function addToFavorite() {
-    this.addedToFavorite = !this.addedToFavorite
+    addedToFavorite.value = !addedToFavorite.value
   }
 
   function addToCart() {
     const formData = {
-      color: this.selectedColor,
-      size: this.selectedSize
+      color: selectedColor.value,
+      size: selectedSize.value
     }
     console.log('Отправляем данные в корзину:', formData);
-    this.addedToCart = true
+    addedToCart.value = true
   }
 </script>
 
@@ -84,7 +84,7 @@
           type="button"
           class="button _secondary _favorite"
           :class="addedToFavorite ? '_active' : ''"
-          @click="addToFavorite()"
+          @click="addToFavorite"
         >В избранное</button>
       </div>
     </div>
